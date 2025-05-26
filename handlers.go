@@ -7,7 +7,8 @@ import (
 	"net/http"
 	"os"
 	"strings"
-	"template/templates"
+
+	"github.com/mattkasun/template/templates"
 
 	"github.com/a-h/templ"
 )

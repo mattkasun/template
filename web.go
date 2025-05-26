@@ -6,8 +6,9 @@ import (
 	"log"
 	"net/http"
 	"sync"
-	"template/middleware"
 	"time"
+
+	"github.com/mattkasun/template/middleware"
 
 	"github.com/gorilla/sessions"
 )

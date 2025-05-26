@@ -1,4 +1,4 @@
-module template
+module github.com/mattkasun/template
 
 go 1.24.0
 
