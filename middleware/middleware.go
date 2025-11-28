@@ -58,6 +58,7 @@ func Logger(next http.Handler) http.Handler {
 
 type statusRecorder struct {
 	http.ResponseWriter
+
 	status int
 }
 

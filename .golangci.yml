@@ -8,8 +8,9 @@ linters:
     - depguard
     - forbidigo
     - nlreturn
+    - noinlineerr
     - wsl
-    - nolintlint
+    - wsl_v5
   exclusions:
     generated: lax
     presets:
