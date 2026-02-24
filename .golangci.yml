@@ -6,11 +6,33 @@ linters:
   default: all
   disable:
     - depguard
+    - exhaustruct
     - forbidigo
     - nlreturn
     - noinlineerr
     - wsl
     - wsl_v5
+  settings:
+    errcheck:
+      exclude-functions:
+        io.WriteString
+    embeddedstructfieldcheck:
+      empty-line: false
+      forbid-mutex: true
+    gosec:
+      excludes:
+        - G703
+        - G706
+    mnd:
+      ignored-functions:
+        - caller
+        - Output
+        - os.MkdirAll
+        - os.OpenFile
+    varnamelen:
+      ignore-decls:
+        - r *http.Request
+        - w http.ResponseWriter
   exclusions:
     generated: lax
     presets:

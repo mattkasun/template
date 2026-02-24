@@ -1,0 +1,85 @@
+{{ define "main" }}
+{{ template "header" }}
+
+<body class="theme-dark">
+    {{template "goto"}}
+    <div class="center">
+        <h1>Event Tracker</h1>
+        <h2>
+            <button type="button" onclick="goTo('/r/add')">Add</button>
+            <button type="button" onclick="goTo('/r/stats')">Stats</button>
+            <button type="button" onclick="goTo('/logout')">Logout</button>
+        </h2>
+    </div>
+
+</body>
+
+</html>
+{{ end }}
+
+{{ define "goto" }}
+<script>
+    function goTo(loc) {
+        location.href = loc;
+    }
+</script>
+{{ end }}
+
+{{ define "login" }}
+{{ template "header" }}
+
+<body class="theme-dark">
+    <div class="center">
+        <h1>Login</h1>
+        <form action="/login" method="post">
+            <p>
+                <label for="name">Username</label>
+                <input type="text" id="name" name="name" required />
+            </p>
+            <p>
+                <label for="pass">Password</label>
+                <input type="password" id="pass" name="pass" required />
+            </p>
+            <p>
+                <button type="reset">Reset</button>
+                <button type="submit">Login</button>
+            </p>
+        </form>
+
+        <h2><a href="/">Home</a></h2>
+    </div>
+
+</body>
+
+</html>
+{{ end }}
+
+{{ define "welcome" }}
+{{ template "header" }}
+
+<body class="theme-dark">
+    <div class="center">
+        <h1>Event Tracker</h1>
+        <h2><a href="/login">Login</a></h2>
+    </div>
+
+</body>
+
+</html>
+{{ end }}
+
+{{ define "error" }}
+{{ template "header" }}
+
+<body class="theme-dark">
+    <div class="center">
+        <h1>Error</h1>
+        <p>An Error was encounted processing your request</p>
+        <p>{{.}}</p>
+        <p><a href="/login">Login</a></p>
+        <p><a href="/">Home</a></p>
+    </div>
+</body>
+
+</html>
+{{end}}

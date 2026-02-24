@@ -1,0 +1,102 @@
+{{ define "add" }}
+{{ template "header+" }}
+
+<body class="theme-dark">
+    {{ template "goto" }}
+    <div class="center">
+        <h1>Add Event</h1>
+        <h2>Category</h2>
+        <select form="new" name="category" id="category" hx-post="/r/events" hx-target="#events">
+            {{ range .Categories }}
+            <option value={{.}}>{{.}}</option>
+            {{end}}
+        </select>
+        <h2>Events</h2>
+        <select form="new" name="events" id="events" multiple>
+            {{ range .Events}}
+            <option value={{.}}>{{.}}</option>
+            {{end}}
+        </select>
+    </div>
+    <form id="new" action="/r/add" method=post class="center">
+        <h3>
+            <button type="button" onclick="goTo('/')">Cancel</button>
+            <button type="submit">Submit</button>
+        </h3>
+    </form>
+</body>
+
+</html>
+{{end}}
+
+{{ define "stats" }}
+{{ template "header+" }}
+
+<body class="theme-dark">
+    {{ template "goto" }}
+    <div class="center">
+        <h1>View Stats</h1>
+        <h2>Categories</h2>
+        <select form="stats" name="category" hx-post="/r/events" hx-target="#events">
+            {{range .Categories}}
+            <option value="{{.}}">{{.}}</option>
+            {{end}}
+        </select>
+        <h2>Events</h2>
+        <select form="stats" id="events" name="events" multiple>
+            {{range .Events}}
+            <option value="{{.}}">{{.}}</option>
+            {{end}}
+        </select>
+        <h2>Duration</h2>
+        <select form="stats" name="duration">
+            <option value="hour">hour</option>
+            <option value="day">day</option>
+            <option value="week">week</option>
+            <option value="month">month</option>
+            <option value="year">year</option>
+            <option value="all">all</option>
+        </select>
+    </div>
+    <form id="stats" action="/r/stats" method="post" class="center">
+        <h3>
+            <button type="button" onclick="goTo('/')">Cancel</button>
+            <button type="submit">Submit</button>
+        </h3>
+    </form>
+</body>
+
+</html>
+{{end}}
+
+{{ define "displayStats" }}
+{{ template "header+" }}
+
+<body class="theme-dark">
+    {{ template "goto" }}
+    <div class="center">
+        {{ if eq .Duration "all"}}
+        <h1>Stats for {{.Category}} </h1>
+        {{else}}
+        <h1>Stats for {{.Category}} over last {{.Duration}} </h1>
+        {{ end }}
+        {{ range .Events }}
+        <h2>{{.Name}}</h2>
+        {{ range .Entries }}
+        <h3>
+            {{ $date := .Format "2006-01-02T15:04:05.999999999Z07:00"}}
+            <form action="/r/delete/{{$.Category}}/{{$date}}" method="post">
+                {{.Format "2006-01-02 15:04:05"}}
+                <button type="submit" onclick="confirm('Confirm deletion from {{$.Category}}')">Delete</button>
+            </form>
+        </h3>
+        {{end}}
+        {{ end }}
+        <h3>
+            <button type="button" onclick="goTo('/r/stats')">Refresh</button>
+            <button type="button" onclick="goTo('/')">Cancel</button>
+        </h3>
+    </div>
+
+</body>
+{{ end }}

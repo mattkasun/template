@@ -2,8 +2,8 @@ package main
 
 import (
 	"context"
-	"io"
 	"log"
+	"log/slog"
 	"os"
 	"os/signal"
 	"sync"
@@ -12,28 +12,20 @@ import (
 
 func main() {
 	// setup logging
-	log.SetFlags(log.Ldate | log.Ltime | log.Lshortfile)
-	logFile, err := os.OpenFile(os.Args[0]+".log", os.O_RDWR|os.O_APPEND|os.O_CREATE, os.ModePerm)
-	if err == nil {
-		w := io.MultiWriter(os.Stderr, logFile)
-		log.SetOutput(w)
-	}
+	log.SetFlags(log.Lshortfile) // date/time added by journald
+	slog.SetDefault(slog.Default())
 	// signals, waitgroups and contexts
 	wg := &sync.WaitGroup{} //nolint:varnamelen
 	quit := make(chan os.Signal, 1)
 	signal.Notify(quit, syscall.SIGTERM, os.Interrupt)
 	ctx, cancel := context.WithCancel(context.Background())
 	// strart goroutines
-	wg.Add(1)
-	go web(ctx, wg)
+	wg.Go(func() {
+		web(ctx)
+	})
 	// wait for signals
-	for { //nolint:staticcheck
-		select {
-		case <-quit:
-			log.Println("quitting ...")
-			cancel()
-			wg.Wait()
-			return
-		}
-	}
+	<-quit
+	log.Println("quitting ...")
+	cancel()
+	wg.Wait()
 }
