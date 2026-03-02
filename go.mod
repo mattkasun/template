@@ -5,7 +5,7 @@ go 1.25.0
 tool github.com/a-h/templ/cmd/templ
 
 require (
-	github.com/devilcove/configuration v0.1.1
+	github.com/devilcove/configuration v0.1.2
 	github.com/devilcove/cookie v0.1.0
 )
 
@@ -20,7 +20,7 @@ require (
 	github.com/mattn/go-colorable v0.1.13 // indirect
 	github.com/mattn/go-isatty v0.0.20 // indirect
 	github.com/natefinch/atomic v1.0.1 // indirect
-	go.yaml.in/yaml/v4 v4.0.0-rc.3 // indirect
+	go.yaml.in/yaml/v4 v4.0.0-rc.4 // indirect
 	golang.org/x/mod v0.24.0 // indirect
 	golang.org/x/net v0.39.0 // indirect
 	golang.org/x/sync v0.13.0 // indirect
