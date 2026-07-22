@@ -6,7 +6,7 @@ tool github.com/a-h/templ/cmd/templ
 
 require (
 	github.com/devilcove/configuration v0.1.2
-	github.com/devilcove/cookie v0.1.0
+	github.com/devilcove/cookie v0.1.3
 )
 
 require (
