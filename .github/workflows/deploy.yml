@@ -22,15 +22,18 @@ jobs:
       - name: build
         run: |
           go build -ldflags='-w -s' .
-      - name: deploy
-        uses: mdallasanta/ssh-scp-deploy@v1.2.0
+      - name: Remote SSH Deploy Action
+        uses: built-for-dx/remote-deploy-action@v1
         with:
-          local: ./README.md
-          remote: /tmp/README.md
+          source: ./README.md
+          target: /tmp/README.md
           host: 10.10.10.115
-          user: debian
+          username: debian
           key: ${{ secrets.SSH_KEY }}
-          scp_options: -v
-          ssh_options: -o UserKnownHostsFile=/dev/null -o -J debian@nusak.ca
-          pre_upload: sudo systemctl stop golf
-          post_upload: sudo systemctl start golf
+          proxy_host: nusak.ca
+          proxy_username: debian
+          proxy_key_path: /home/debian/.ssh/id_ed25519
+          script: |
+            sudo systemctl stop golf
+            sudo cp /tmp/README.md /tmp/README.2.md
+            sudo systemctl start golf
