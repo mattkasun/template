@@ -1,0 +1,36 @@
+name: Deploy to Development
+
+on:
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: "branch to deploy"
+        required: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ inputs.branch }}
+      - name: Setup go
+        uses: actions/setup-go@v7
+        with:
+          go-version-file: ./go.mod
+      - name: build
+        run: |
+          go build -ldflags='-w -s' .
+      - name: deploy
+        uses: mdallasanta/ssh-scp-deploy@v1.2.0
+        with:
+          local: ./README.md
+          remote: /tmp/README.md
+          host: 10.10.10.115
+          user: debian
+          key: ${{ secrets.SSH_KEY }}
+          scp_options: -v
+          ssh_options: -o UserKnowHostsFile=/dev/null -o -J debian@nusak.ca
+          pre_upload: sudo systemctl stop golf
+          post_upload: sudo systemctl start golf
