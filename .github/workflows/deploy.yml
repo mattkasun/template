@@ -31,6 +31,6 @@ jobs:
           user: debian
           key: ${{ secrets.SSH_KEY }}
           scp_options: -v
-          ssh_options: -o UserKnowHostsFile=/dev/null -o -J debian@nusak.ca
+          ssh_options: -o UserKnownHostsFile=/dev/null -o -J debian@nusak.ca
           pre_upload: sudo systemctl stop golf
           post_upload: sudo systemctl start golf
